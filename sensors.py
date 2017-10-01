@@ -46,6 +46,7 @@ class sensor_server(object):
                 logging.info("Sensor %s has temperature %.2f" % (sensor.id, temp))
                 if temp in self.absurd_temps:
                     logging.warning("Sensor %s value: %s absurd. Not posting" % (sensor.id, temp))
+                    continue
                 self.gauge.labels(id=sensor.id).set(temp)
             logging.info("sleeping %s..." % self.sleep)
             time.sleep(self.sleep)
