@@ -40,8 +40,8 @@ class sensor_server(object):
             for sensor in w1thermsensor.W1ThermSensor.get_available_sensors():
                 try:
                     temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
-                except w1thermsensor.core.SensorNotReadyError as e:
-                    logging.warning("Sensor %s not ready: %s" % (sensor.id, e))
+                except (w1thermsensor.core.SensorNotReadyError, w1thermsensor.core.NoSensorFoundError) as e:
+                    logging.warning("Sensor %s: %s" % (sensor.id, e))
                     continue
                 logging.info("Sensor %s has temperature %.2f" % (sensor.id, temp))
                 if temp in self.absurd_temps:
