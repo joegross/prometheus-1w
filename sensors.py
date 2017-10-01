@@ -30,6 +30,10 @@ class sensor_server(object):
         self.sleep = sleep
         start_http_server(8000)
         self.gauge = Gauge('sensor_temp_degF', 'DS18B20 sensor temp (F)', ['id'])
+        # blacklist erronous values
+        self.absurd_temps = [
+            185.,
+        ]
         
     def serve_forever(self):
         while True:
@@ -40,6 +44,8 @@ class sensor_server(object):
                     logging.warning("Sensor %s not ready: %s" % (sensor.id, e))
                     continue
                 logging.info("Sensor %s has temperature %.2f" % (sensor.id, temp))
+                if temp in self.absurd_temps:
+                    logging.warning("Sensor %s value: %s absurd. Not posting" % (sensor.id, temp))
                 self.gauge.labels(id=sensor.id).set(temp)
             logging.info("sleeping %s..." % self.sleep)
             time.sleep(self.sleep)
