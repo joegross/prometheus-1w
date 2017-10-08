@@ -32,7 +32,8 @@ class sensor_server(object):
         self.gauge = Gauge('sensor_temp_degF', 'DS18B20 sensor temp (F)', ['id'])
         # blacklist erronous values
         self.absurd_temps = [
-            185.,
+            32.,  # broken data line
+            185., # conflicting sensor
         ]
         
     def serve_forever(self):
