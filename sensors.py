@@ -33,6 +33,7 @@ class sensor_server(object):
         # blacklist erronous values
         self.absurd_temps = [
             32.,  # broken data line
+            184.44, # warming up
             185., # conflicting sensor
         ]
         
