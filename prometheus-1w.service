@@ -1,0 +1,13 @@
+[Unit]
+Description=prometheus-1w
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/pi/prometheus-1w
+ExecStart=/home/pi/prometheus-1w/prometheus-1w.py -v
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
